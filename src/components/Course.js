@@ -10,6 +10,7 @@ const Course = ({course}) => {
                 return <li key={c.id}>{c.name} {c.exercises}</li>
             })}
         </ul>
+        <p><b>total of {course.parts.map(p => p.exercises).reduce((a, b) => a + b)} exercises.</b></p>
     </>
   )
 }
