@@ -1,11 +1,22 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Note from './Note'
 
 const NotesProj = (props) => {
-    const [notes, setNotes] = useState(props.notes)
+    const [notes, setNotes] = useState([])
     const [noteInput, setNoteInput] = useState("")
     const [showAll, setShowAll] = useState(true)
+
+    useEffect(() => {
+        console.log('effect')
+        axios
+          .get('http://localhost:3001/notes')
+          .then(response => {
+            console.log('promise fulfilled')
+            setNotes(response.data)
+          })
+      }, [])
   
     function generateId(){
       const id = Math.floor(Math.random() * 1000000000)

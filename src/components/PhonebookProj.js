@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const PhonebookProj = () => {
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', number: '040-123456', id: 1 },
-        { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-        { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-        { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-      ])
+    const [persons, setPersons] = useState([])
     const [personsFiltered, setPersonsFiltered] = useState([])
     const [newPerson, setNewName] = useState({name: '', number: ''})
     const [searchVal, setSearchVal] = useState('')
+
+    useEffect(serverFetch, [])
+
+    function serverFetch(){
+        axios.get('http://localhost:3002/persons')
+        .then(res => setPersons(res.data))
+    }
 
     function handlePhoneForm(event){
         event.preventDefault()
