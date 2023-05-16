@@ -4,30 +4,33 @@ const PhonebookProj = () => {
     const [persons, setPersons] = useState([
         {name: 'Arto', id: generateId()}
     ])
-    const [newName, setNewName] = useState('')
+    const [newPerson, setNewName] = useState({name: '', number: ''})
 
     function handlePhoneForm(event){
         event.preventDefault()
 
-        const nameExists = persons.map(p => p.name).includes(newName)
+        const nameExists = persons.map(p => p.name).includes(newPerson.name)
 
         console.log(nameExists)
 
         if(nameExists == true){
-            return alert(`${newName} already exists in phonebook`)
+            return alert(`${newPerson.name} already exists in phonebook`)
         }
 
         const newPersonInfo = {
             id: generateId(),
-            name: newName
+            name: newPerson.name,
+            number: newPerson.number
         }
 
         setPersons(persons.concat(newPersonInfo))
-        setNewName('')
+        setNewName({name: '', number: ''})
     }
 
     function handleNameInput(event){
-        setNewName(event.target.value)
+        const {name, value} = event.target
+        console.log(name, value)
+        setNewName({...newPerson, [name]: value})
     }
 
     function generateId(){
@@ -41,7 +44,8 @@ const PhonebookProj = () => {
       <h2>Phonebook</h2>
       <form onSubmit={handlePhoneForm}>
         <div>
-          name: <input value={newName} onChange={handleNameInput}/>
+          name: <input name='name' value={newPerson.name} onChange={handleNameInput}/>
+          number: <input name='number' value={newPerson.number} onChange={handleNameInput}/>
         </div>
         <div>
           <button type="submit">add</button>
