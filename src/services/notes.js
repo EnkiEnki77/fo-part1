@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = `http://localhost:3001/notes`
+const url = `/notes`
 
 function getAll(){
    const request = axios.get(url)

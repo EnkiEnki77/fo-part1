@@ -6,8 +6,8 @@ import PhonebookProj from './components/PhonebookProj'
 const App = (props) => {
   return (
     <div>
-      {/* <NotesProj/> */}
-      <PhonebookProj/>
+      <NotesProj/>
+      {/* <PhonebookProj/> */}
     </div>
   )
 }
