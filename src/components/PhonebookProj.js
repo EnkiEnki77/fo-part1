@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { create, getAll } from '../services/phonebook'
+import { create, deletion, getAll } from '../services/phonebook'
 
 const PhonebookProj = () => {
     const [persons, setPersons] = useState([])
@@ -57,6 +57,13 @@ const PhonebookProj = () => {
         return id
     }
 
+    function deletePhoneNumber(id, event){
+        if(window.confirm('Are you sure?')){
+            deletion(id)
+            .then(deletedNumber => setPersons(persons.filter(p => p.id != id)))
+        }
+    }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -77,7 +84,10 @@ const PhonebookProj = () => {
       {searchVal.length == 0 ?
         <ul>
             {persons.map(p => {
-                return <li key={p.id}>{p.name} {p.number}</li>
+                return <div style={{display: 'flex'}} key={p.id}>
+                            <li>{p.name} {p.number}</li>
+                            <button onClick={() => deletePhoneNumber(p.id)}>delete</button>
+                        </div>
             })}
         </ul>
         :
