@@ -1,7 +1,11 @@
-const Note = (props) => {
+const Note = ({note, toggleImportance}) => {
+    const label = note.important == true ?
+    'important: false' :
+    'important: true'
     return (
       <li>
-         {props.note.content}
+         {note.content}
+         <button onClick={toggleImportance}>{label}</button>
       </li>
     )
   }

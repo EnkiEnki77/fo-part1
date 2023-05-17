@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { create, getAll } from '../services/phonebook'
 
 const PhonebookProj = () => {
     const [persons, setPersons] = useState([])
@@ -10,8 +11,8 @@ const PhonebookProj = () => {
     useEffect(serverFetch, [])
 
     function serverFetch(){
-        axios.get('http://localhost:3002/persons')
-        .then(res => setPersons(res.data))
+        getAll()
+        .then(initPhonebook => setPersons(initPhonebook))
     }
 
     function handlePhoneForm(event){
@@ -31,8 +32,8 @@ const PhonebookProj = () => {
             number: newPerson.number
         }
 
-        setPersons(persons.concat(newPersonInfo))
-        setNewName({name: '', number: ''})
+        create(newPersonInfo)
+        .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
     }
 
     function handleNameInput(event){
