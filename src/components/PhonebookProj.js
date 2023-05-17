@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { create, deletion, getAll } from '../services/phonebook'
+import { create, deletion, getAll, update } from '../services/phonebook'
 
 const PhonebookProj = () => {
     const [persons, setPersons] = useState([])
@@ -20,16 +20,27 @@ const PhonebookProj = () => {
 
         const nameExists = persons.map(p => p.name).includes(newPerson.name)
 
+
         console.log(nameExists)
 
-        if(nameExists == true){
-            return alert(`${newPerson.name} already exists in phonebook`)
-        }
-
         const newPersonInfo = {
-            id: generateId(),
             name: newPerson.name,
             number: newPerson.number
+        }
+
+        if(nameExists == true){
+            const oldPersonInfo = persons.find(p => p.name == newPerson.name)
+            console.log(oldPersonInfo)
+            const updatePersonInfo = {
+                ...oldPersonInfo,
+                number: newPerson.number
+            }
+
+            if(window.confirm(`${newPerson.name} is already added to the phonebook, repplace old number with new one?`)){
+                update(updatePersonInfo.id, updatePersonInfo)
+                .then(returnedPerson => setPersons(persons.map(p => p.id == returnedPerson.id ? returnedPerson : p)))
+            }
+            return 
         }
 
         create(newPersonInfo)
@@ -49,12 +60,6 @@ const PhonebookProj = () => {
 
         setSearchVal(value)
         setPersonsFiltered(filtered)
-    }
-
-    function generateId(){
-        const id = Math.floor(Math.random() * 1000000000)
-
-        return id
     }
 
     function deletePhoneNumber(id, event){
