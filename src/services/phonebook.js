@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'http://localhost:3002/persons'
+const url = '/api/persons'
 
 const getAll = () => {
     const request = axios.get(url)
@@ -19,7 +19,7 @@ const update = (id, newObj) => {
 
 const deletion = (id) => {
     const request = axios.delete(`${url}/${id}`)
-    return console.log(`Number deleted`)
+    return request.then(res => res)
 }
 
 export {getAll, create, update, deletion}
